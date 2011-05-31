@@ -11,6 +11,14 @@ namespace Darkcore { public class Sprite : Object {
     public double rotation { get; set; default = 0.00; }
     public double width { get; set; default = 32.00; }
     public double height { get; set; default = 32.00; }
+    public double coords_top_left_x { get; set; default = 0.00; }
+    public double coords_top_left_y { get; set; default = 0.00; }
+    public double coords_bottom_left_x { get; set; default = 1.00; }
+    public double coords_bottom_left_y { get; set; default = 0.00; }
+    public double coords_bottom_right_x { get; set; default = 1.00; }
+    public double coords_bottom_right_y { get; set; default = 1.00; }
+    public double coords_top_right_x { get; set; default = 0.00; }
+    public double coords_top_right_y { get; set; default = 1.00; }
     public uchar color_r { get; set; default = 255; }
     public uchar color_g { get; set; default = 255; }
     public uchar color_b { get; set; default = 255; }
@@ -64,25 +72,27 @@ namespace Darkcore { public class Sprite : Object {
         }
         glColor3ub((GLubyte) color_r, (GLubyte) color_g, (GLubyte) color_b);
         glBegin(GL_QUADS);
-            glTexCoord2f((GLfloat) 0.00, (GLfloat) 0.00); 
+            glTexCoord2f((GLfloat) coords_top_left_x, (GLfloat) coords_top_left_y); 
             glVertex3d(
                 -half_width, 
                 half_height, 
                 1
             );
-            glTexCoord2f((GLfloat) 1.00, (GLfloat) 0.00);
+            glTexCoord2f((GLfloat) coords_bottom_left_x, (GLfloat) coords_bottom_left_y);
             glVertex3d(
                 -half_width,
                 -half_height,
                 1
             );
-            glTexCoord2f((GLfloat) 1.00, (GLfloat) 1.00); 
+            
+            glTexCoord2f((GLfloat) coords_bottom_right_x, (GLfloat) coords_bottom_right_y); 
             glVertex3d(
                 half_width, 
                 -half_height, 
                 1
             );
-            glTexCoord2f((GLfloat) 0.00, (GLfloat) 1.00); 
+            
+            glTexCoord2f((GLfloat) coords_top_right_x, (GLfloat) coords_top_right_y); 
             glVertex3d(
                 half_width, 
                 half_height, 

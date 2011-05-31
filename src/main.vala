@@ -2,7 +2,17 @@ public class GameDemo : Object {
     public static int main (string[] args) {
         var engine = new Darkcore.Engine(640, 480);
         
-        
+        var font = new Darkcore.Sprite.from_file (engine, "resources/font.png");
+        engine.sprites.add (font);
+        font.width = 32;
+        font.height = 32;
+        font.x = 230;
+        font.y = 200;
+        double fw = 1 / (512.0 / 32.0);
+        font.coords_bottom_left_x = fw;
+        font.coords_top_right_y = fw;
+        font.coords_bottom_right_x = fw;
+        font.coords_bottom_right_y = fw;
         
         var player = new Darkcore.Sprite ();
         player.world = engine;
