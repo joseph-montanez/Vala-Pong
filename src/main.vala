@@ -2,7 +2,6 @@ public class GameDemo : Object {
     public static int main (string[] args) {
         var engine = new Darkcore.Engine(640, 480);
         
-        var ball = new Ball(ref engine);
         
         
         var player = new Darkcore.Sprite ();
@@ -45,7 +44,6 @@ public class GameDemo : Object {
             player.y += y;
         });
         engine.sprites.add (player);
-        engine.sprites.add (ball);
 
         /*
         TODO: Music, Sound
@@ -62,6 +60,10 @@ public class GameDemo : Object {
             SDLMixer.close();
         }
         */
+        
+        var ball = new Ball(ref engine);
+        ball.left_paddle = player;
+        engine.sprites.add (ball);
                 
         engine.run ();
 

@@ -4,18 +4,25 @@ public class Ball : Darkcore.Sprite {
     public double acceleration {
         get; set; default = 0.100;
     }
-    public Darkcore.Sprite? left_paddle { get; set; default = null; }
-    public Darkcore.Sprite? right_paddle { get; set; default = null; }
+    public unowned Darkcore.Sprite? left_paddle { get; set; default = null; }
+    public unowned Darkcore.Sprite? right_paddle { get; set; default = null; }
     
     public Ball (ref Darkcore.Engine engine) {
+        /* TODO: Dificulty, hard = smaller paddle */
+        this.left_paddle = null;
+        this.right_paddle = null;
         base.from_file (engine, "resources/ball.png");
         
         this.width = 64.00;
         this.height = 64.00;
-        this.x = 100.00;
-        this.y = 100.00;
-        this.velocity_x = 2.00;
-        this.velocity_y = 2.00;
+        
+        /* Place the ball in the middle of the screen */
+        this.x = engine.width / 2;
+        this.y = engine.height / 2;
+        
+        /* Set the inital ball velocity */
+        this.velocity_x = 4.00;
+        this.velocity_y = 4.00;
         
         this.on_render = (engine, ball) => {
             var half_height = height / 2.00;
@@ -32,39 +39,49 @@ public class Ball : Darkcore.Sprite {
             /* If the ball goes beyound right of the window */
             if (x + half_width + velocity_x >= engine.width) {
                 velocity_x = -Math.fabs(velocity_x);
+                /* The right player loses if this happens */
             }
             /* If the ball goes beyound left of the window */
             if (x - half_width - velocity_x <= 0) {
                 velocity_x = Math.fabs(velocity_x);
+                /* The left player loses if this happens */
             }
             
-            if (left_paddle != null) {
-            
-            }
-            
-            /* Go through each paddle and check for collisions */
-            foreach (var sprite in engine.sprites) {
-                if (sprite == this) {
-                    continue;
+            /* Test for each paddle for collision */
+            for (var i = 0; i < 2; i++) {
+                unowned Darkcore.Sprite? paddle = null;
+                
+                /* Figure out which paddle we are testing for */
+                if (i == 0 && left_paddle != null) {
+                    paddle = left_paddle;
+                }
+                else if (i == 1 && right_paddle != null) {
+                    paddle = right_paddle;
                 }
                 
-                
-                /* Check for collisions of the paddle and ball */
-                if (has_hit_paddle (sprite)) {
+                if (paddle != null && has_hit_paddle (paddle)) {
                     /* 
                      * This is the left paddle, Inverse the x-axis 
                      * (assume its negitive) and add more acceleration to it  
                      */
                     velocity_x = Math.fabs (velocity_x) + acceleration;
+                    /*
+                     * If this is the right paddle then we need to invert
+                     * the velocity on the x-axis
+                     */
+                    if (paddle == right_paddle) {
+                        velocity_x *= -1;
+                    }
                     /* 
                      * Based on the ball's y position and paddle's center y
                      * position, should result in the ball's y axis being
                      * altered  
                      */
-                    velocity_y = -((sprite.y - y) / half_height);
+                    velocity_y = -((paddle.y - y) / half_height);
+                
                 }
             }
-
+            
             /* Add any resulting velocity changes to the ball's position */
             x += velocity_x;
             y += velocity_y;
@@ -76,7 +93,7 @@ public class Ball : Darkcore.Sprite {
         };
     }
     
-    public bool has_hit_paddle(Darkcore.Sprite sprite) {
+    public bool has_hit_paddle (Darkcore.Sprite sprite) {
         var circle_vector = new Darkcore.Vector(2);
         circle_vector.set (0, x);
         circle_vector.set (1, y);
