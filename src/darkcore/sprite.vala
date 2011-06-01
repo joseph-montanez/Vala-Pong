@@ -48,7 +48,7 @@ namespace Darkcore { public class Sprite : Object {
         render (world, sprite);
     }
     
-    public void render() {
+    public virtual void render() {
         Texture? texture = null;
         if (this.texture_index > -1) {
             glEnable(GL_TEXTURE_2D);
@@ -71,33 +71,36 @@ namespace Darkcore { public class Sprite : Object {
             glRotated(rotation, 0.00, 0.00, 1.00);
         }
         glColor3ub((GLubyte) color_r, (GLubyte) color_g, (GLubyte) color_b);
-        glBegin(GL_QUADS);
-            glTexCoord2f((GLfloat) coords_top_left_x, (GLfloat) coords_top_left_y); 
+         glBegin(GL_QUADS);
+            
+            glTexCoord2f((GLfloat) coords_top_left_x, (GLfloat) coords_top_left_y);
             glVertex3d(
-                -half_width, 
-                half_height, 
+                -half_width,
+                half_height,
                 1
             );
-            glTexCoord2f((GLfloat) coords_bottom_left_x, (GLfloat) coords_bottom_left_y);
+            
+            glTexCoord2f((GLfloat) coords_top_right_x, (GLfloat) coords_top_right_y);
             glVertex3d(
                 -half_width,
                 -half_height,
                 1
             );
             
-            glTexCoord2f((GLfloat) coords_bottom_right_x, (GLfloat) coords_bottom_right_y); 
+            glTexCoord2f((GLfloat) coords_bottom_right_x, (GLfloat) coords_bottom_right_y);
             glVertex3d(
-                half_width, 
-                -half_height, 
+                half_width,
+                -half_height,
                 1
             );
             
-            glTexCoord2f((GLfloat) coords_top_right_x, (GLfloat) coords_top_right_y); 
+            glTexCoord2f((GLfloat) coords_bottom_left_x, (GLfloat) coords_bottom_left_y);
             glVertex3d(
-                half_width, 
-                half_height, 
+                half_width,
+                half_height,
                 1
             );
+            
         glEnd();
         glPopMatrix();
         

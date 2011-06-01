@@ -1,18 +1,12 @@
 public class GameDemo : Object {
     public static int main (string[] args) {
         var engine = new Darkcore.Engine(640, 480);
+        engine.addTexture ("resources/font.png");
+        engine.addTexture ("resources/fluffy-grass.png");
         
-        var font = new Darkcore.Sprite.from_file (engine, "resources/font.png");
-        engine.sprites.add (font);
-        font.width = 32;
-        font.height = 32;
-        font.x = 230;
-        font.y = 200;
-        double fw = 1 / (512.0 / 32.0);
-        font.coords_bottom_left_x = fw;
-        font.coords_top_right_y = fw;
-        font.coords_bottom_right_x = fw;
-        font.coords_bottom_right_y = fw;
+        var text = new Darkcore.SpriteNS.Text.from_texture(engine, 0);
+        engine.sprites.add (text);
+        
         
         var player = new Darkcore.Sprite ();
         player.world = engine;
@@ -29,14 +23,6 @@ public class GameDemo : Object {
             if (engine.keys.down) {
                 y -= 4;
             }
-            /*
-            if (engine.keys.left) {
-                x -= 4;
-            }
-            if (engine.keys.right) {
-                x += 4;
-            }
-            */
             if (player.x + x + (player.width / 2) >= engine.width) {
                 x = 0;
             }
