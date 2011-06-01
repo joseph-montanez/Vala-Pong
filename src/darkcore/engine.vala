@@ -21,6 +21,7 @@ namespace Darkcore { public class Engine : Object {
     public bool done;
     public int width;
     public int height;
+    public int frames_per_second { get; set; default = 0; }
     
     public Engine(int width, int height) {
         SDL.init (InitFlag.VIDEO |  InitFlag.AUDIO);
@@ -229,6 +230,7 @@ namespace Darkcore { public class Engine : Object {
             if (time_since_last_frame > 1000) {
                 print("FPS: %i\n", fps);
                 old_time = new_time;
+                frames_per_second = fps;
                 fps = 0;
             }
         }    
