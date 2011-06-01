@@ -1,28 +1,42 @@
 namespace Darkcore {
     namespace SpriteNS {
         public class Text : Sprite {
+            public string data { get; set; default = ""; }
+            public int character_height { get; set; default = 32; }
+            public int character_width { get; set; default = 32; }
             public Text() {
                 base();
             }
             public Text.from_texture(Engine world, int texture_index) {
                 base.from_texture(world, texture_index);
             }
+            
+            public void set_text (string text) {
+                data = text;
+            }
+            
             public override void render() {
-                var fw = 1.00 / (512.0 / 32.0);
-                
-                var word = "Hello!";
+                var texture = this.world.textures[this.texture_index];
+                var fw = 1.00 / (texture->width / character_width);
+                var no_of_chars_per_line = texture->width / character_width;
                 var i = 0;
-                var pword = word;
-                var c = pword.get_char ();
+                var word = data;
+                var c = word.get_char ();
                 while (c != '\0') {
-                    //print ("- %s = %i\n", c.to_string (), (int) c);
+                    // Change the Character to an ordinal value (Ascii)
                     var ord = (int) c;
                     
-                    int cy = ord / 16; 
-                    int cx = ord % 16;
+                    // Find the position as to where the character is in the 
+                    // texture map
+                    int cy = ord / no_of_chars_per_line; 
+                    int cx = ord % no_of_chars_per_line;
+                    
                     this.width = 32;
                     this.height = 32;
-                    this.x = 230 + (16 * i);
+                    
+                    // Push the character over to render next to the previous
+                    // character
+                    this.x = 230 + (no_of_chars_per_line * i);
                     this.y = 200; // + (16 * i);
                     
                     this.coords_top_left_x = 0.00 + (fw * cx);
@@ -37,8 +51,8 @@ namespace Darkcore {
                     this.coords_bottom_right_x = fw + (fw * cx);
                     this.coords_bottom_right_y = fw + (fw * cy);
                     
-                    pword = pword.next_char ();
-                    c = pword.get_char ();
+                    word = word.next_char ();
+                    c = word.get_char ();
                     i++;
                     base.render();
                 }

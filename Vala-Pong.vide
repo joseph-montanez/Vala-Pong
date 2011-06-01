@@ -1,0 +1,24 @@
+--- !Project
+name: Vala-Pong
+author: Joseph Montanez
+version: 0.10
+license: /usr/share/common-licenses/GPL-3
+builder: make
+builder-options: !NativeBuilderOptions
+  debug: false
+  thread: false
+  disable-assert: false
+  disable-checking: false
+  disable-non-null: false
+  save-temps: false
+  quiet: false
+  other: 
+executable-options:
+  program: 
+  arguments: 
+  working-dir: /home/joseph/Vala-Pong/
+  environment: []
+files:
+- path: COPYING
+packages: []
+vapi_dir: []

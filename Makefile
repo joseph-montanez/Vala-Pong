@@ -18,6 +18,7 @@ FILES = \
     src/darkcore/collision.vala \
     src/darkcore/engine.vala \
     src/darkcore/sprite.vala \
+    src/darkcore/sprite/text.vala \
     src/darkcore/keystate.vala \
     src/darkcore/texture.vala \
     src/darkcore.vala

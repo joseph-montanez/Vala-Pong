@@ -5,6 +5,7 @@ public class GameDemo : Object {
         engine.addTexture ("resources/fluffy-grass.png");
         
         var text = new Darkcore.SpriteNS.Text.from_texture(engine, 0);
+        text.set_text ("Hello World!");
         engine.sprites.add (text);
         
         
