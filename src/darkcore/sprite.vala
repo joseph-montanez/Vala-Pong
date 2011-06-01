@@ -6,6 +6,7 @@ using GLUT;
 
 namespace Darkcore { public class Sprite : Object {
     public delegate void DelegateType (Engine world, Sprite sprite);
+    public string id { get; set; default = ""; }
     public double x { get; set; default = 0.00; }
     public double y { get; set; default = 0.00; }
     public double rotation { get; set; default = 0.00; }
