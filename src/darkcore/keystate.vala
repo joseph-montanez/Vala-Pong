@@ -10,6 +10,8 @@ namespace Darkcore { public class KeyState : Object {
     public bool left { get; set; default = false; }
     public bool right { get; set; default = false; }
     public bool space { get; set; default = false; }
+    public bool w { get; set; default = false; }
+    public bool s { get; set; default = false; }
     public KeyState() {
     
     }

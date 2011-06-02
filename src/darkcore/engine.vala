@@ -5,13 +5,17 @@ using GLU;
 using GLUT;
 
 namespace Darkcore { public class Engine : Object {
-    public delegate void DelegateType (Engine world);
+    public enum Events {
+        Render
+    }
+    public delegate void DelegateType ();
     /* Vala 0.12 does not support an array of delegations :( */
-    public DelegateType? on_loop_events_00;
-    public DelegateType? on_loop_events_01;
-    public DelegateType? on_loop_events_02;
-    public DelegateType? on_loop_events_03;
-    public DelegateType? on_loop_events_04;
+    public DelegateType? on_render_events_00;
+    public DelegateType? on_render_events_01;
+    public DelegateType? on_render_events_02;
+    public DelegateType? on_render_events_03;
+    public DelegateType? on_render_events_04;
+    public Gee.ArrayList<DelegateType*> render_events; 
     public Gee.ArrayList<Texture*> textures; 
     public Gee.ArrayList<Sprite> sprites; 
     public GLuint tids[32];
@@ -34,33 +38,34 @@ namespace Darkcore { public class Engine : Object {
         this.init_video ();
     }
     
-    public int add_event_on_loop (DelegateType fn) {
-        /* 
-            This is fking retarded, i want delegations to be allowed with an 
-            array type!!!
-        */
-        
-        if (this.on_loop_events_00 == null) {
-            this.on_loop_events_00 = fn;
-            return 0;
+    public int add_event (Events evt, DelegateType fn) {
+        if (evt == Events.Render) {
+            /* 
+                This is fking retarded, i want delegations to be allowed with an 
+                array type!!!
+            */
+            
+            if (this.on_render_events_00 == null) {
+                this.on_render_events_00 = fn;
+                return 0;
+            }
+            if (this.on_render_events_01 == null) {
+                this.on_render_events_01 = fn;
+                return 1;
+            }
+            if (this.on_render_events_02 == null) {
+                this.on_render_events_02 = fn;
+                return 2;
+            }
+            if (this.on_render_events_03 == null) {
+                this.on_render_events_03 = fn;
+                return 3;
+            }
+            if (this.on_render_events_04 == null) {
+                this.on_render_events_04 = fn;
+                return 4;
+            }
         }
-        if (this.on_loop_events_01 == null) {
-            this.on_loop_events_01 = fn;
-            return 1;
-        }
-        if (this.on_loop_events_02 == null) {
-            this.on_loop_events_02 = fn;
-            return 2;
-        }
-        if (this.on_loop_events_03 == null) {
-            this.on_loop_events_03 = fn;
-            return 3;
-        }
-        if (this.on_loop_events_04 == null) {
-            this.on_loop_events_04 = fn;
-            return 4;
-        }
-        
         return -1;
     }
     
@@ -97,6 +102,12 @@ namespace Darkcore { public class Engine : Object {
                 break;
             case KeySymbol.RIGHT:
                 this.keys.right = isdown;
+                break;
+            case KeySymbol.w:
+                this.keys.w = isdown;
+                break;
+            case KeySymbol.s:
+                this.keys.s = isdown;
                 break;
             case KeySymbol.ESCAPE:
                 this.done = true;
@@ -195,7 +206,7 @@ namespace Darkcore { public class Engine : Object {
             }
             sprite.render();
         }
-
+        
         SDL.GL.swap_buffers();
     }
     
@@ -245,7 +256,7 @@ namespace Darkcore { public class Engine : Object {
         return texture;
     }
     
-    public int addTexture(string filename) {
+    public int add_texture(string filename) {
         this.textures.add(new Texture.from_file(filename, this));
         return this.textures.size - 1;
     }

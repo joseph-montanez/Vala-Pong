@@ -1,8 +1,15 @@
 public class GameDemo : Object {
     public static int main (string[] args) {
         var engine = new Darkcore.Engine(640, 480);
-        engine.addTexture ("resources/font.png");
-        engine.addTexture ("resources/fluffy-grass.png");
+        
+        // Load textures
+        engine.add_texture ("resources/font.png");
+        engine.add_texture ("resources/fluffy-grass.png");
+        
+        // Add an Event to the Render Call
+        engine.add_event(Darkcore.Engine.Events.Render, () => {
+            // I am called after each render...
+        });
         
         var text = new Darkcore.SpriteNS.Text.from_texture(engine, 0);
         text.set_text ("Hello World!");
@@ -22,10 +29,10 @@ public class GameDemo : Object {
         player.on_key_press = ((engine, player) => {
             var x = 0;
             var y = 0;
-            if (engine.keys.up) {
+            if (engine.keys.w) {
                 y += 4;
             }
-            if (engine.keys.down) {
+            if (engine.keys.s) {
                 y -= 4;
             }
             if (player.x + x + (player.width / 2) >= engine.width) {
@@ -41,10 +48,40 @@ public class GameDemo : Object {
                 y = 0;
             }
             
-            //player.x += x;
             player.y += y;
         });
         engine.sprites.add (player);
+        
+        var player2 = new Darkcore.Sprite ();
+        player2.world = engine;
+        player2.x = engine.width - 32;
+        player2.y += 100;
+        player2.height = 100;
+        player2.on_key_press = ((engine, player) => {
+            var x = 0;
+            var y = 0;
+            if (engine.keys.up) {
+                y += 4;
+            }
+            if (engine.keys.down) {
+                y -= 4;
+            }
+            if (player2.x + x + (player2.width / 2) >= engine.width) {
+                x = 0;
+            }
+            else if (player2.x + x - (player2.width / 2) <= 0) {
+                x = 0;
+            }
+            if (player2.y + y + (player2.height / 2) >= engine.height) {
+                y = 0;
+            }
+            else if (player2.y + y - (player2.height / 2) <= 0) {
+                y = 0;
+            }
+            
+            player2.y += y;
+        });
+        engine.sprites.add (player2);
 
         /*
         TODO: Music, Sound
@@ -64,6 +101,7 @@ public class GameDemo : Object {
         
         var ball = new Ball(ref engine);
         ball.left_paddle = player;
+        ball.right_paddle = player2;
         engine.sprites.add (ball);
                 
         engine.run ();

@@ -33,7 +33,7 @@ namespace Darkcore { public class Sprite : Object {
     
     public Sprite.from_file(Engine world, string filename) {
         this.world = world;
-        this.texture_index = this.world.addTexture(filename);
+        this.texture_index = this.world.add_texture(filename);
     }
     
     public Sprite.from_texture(Engine world, int texture_index) {
