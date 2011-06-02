@@ -1,6 +1,15 @@
+public class GameState : Object {
+    public int points { get; set; default =0; }
+    
+    public GameState() {
+        base();
+    }
+    
+}
 public class GameDemo : Object {
     public static int main (string[] args) {
         var engine = new Darkcore.Engine(640, 480);
+        engine.gamestate = new GameState();
         
         // Load textures
         engine.add_texture ("resources/font.png");
@@ -9,6 +18,10 @@ public class GameDemo : Object {
         // Add an Event to the Render Call
         engine.add_event(Darkcore.Engine.Events.Render, () => {
             // I am called after each render...
+            // This can be something like object management ....
+            var state = (GameState) engine.gamestate;
+            state.points += 1;
+            print("%i\n", state.points);
         });
         
         var text = new Darkcore.SpriteNS.Text.from_texture(engine, 0);

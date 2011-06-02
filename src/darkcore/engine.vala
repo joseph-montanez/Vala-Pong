@@ -26,6 +26,7 @@ namespace Darkcore { public class Engine : Object {
     public int width;
     public int height;
     public int frames_per_second { get; set; default = 0; }
+    public Object gamestate;
     
     public Engine(int width, int height) {
         SDL.init (InitFlag.VIDEO |  InitFlag.AUDIO);
@@ -205,6 +206,23 @@ namespace Darkcore { public class Engine : Object {
                 sprite.fire_render(sprite.on_render, this, sprite);
             }
             sprite.render();
+        }
+        
+        // Run Render Events
+        if (this.on_render_events_00 != null) {
+            this.on_render_events_00 ();
+        }
+        if (this.on_render_events_01 != null) {
+            this.on_render_events_01 ();
+        }
+        if (this.on_render_events_02 != null) {
+            this.on_render_events_02 ();
+        }
+        if (this.on_render_events_03 != null) {
+            this.on_render_events_03 ();
+        }
+        if (this.on_render_events_04 != null) {
+            this.on_render_events_04 ();
         }
         
         SDL.GL.swap_buffers();
