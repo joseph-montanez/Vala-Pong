@@ -22,7 +22,7 @@ public class GameDemo : Object {
         });
         
         var text = new Darkcore.SpriteNS.Text.from_texture(engine, 0);
-        text.set_text ("Hello World!");
+        text.set_text ("Hello World!"); // Testing
         text.on_render = (engine, self) => {
             int fps = engine.frames_per_second;
             text.data = @"Frames per second: $fps";
