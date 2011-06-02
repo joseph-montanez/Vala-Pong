@@ -23,6 +23,8 @@ namespace Darkcore { public class Sprite : Object {
     public uchar color_r { get; set; default = 255; }
     public uchar color_g { get; set; default = 255; }
     public uchar color_b { get; set; default = 255; }
+    public double scale_x { get; set; default = 1.00; }
+    public double scale_y { get; set; default = 1.00; }
     public int texture_index { get; set; default = -1; }
     public DelegateType? on_key_press;
     public DelegateType? on_render;
@@ -68,6 +70,11 @@ namespace Darkcore { public class Sprite : Object {
         double half_height = this.height / 2;
         glPushMatrix();
         glTranslated(x, y, 0.00);
+        
+        if (scale_x != 1.00 || scale_y != 1.00) {
+            glScaled(scale_x, scale_y, 1.00);
+        }
+        
         if (rotation != 0.00) {
             glRotated(rotation, 0.00, 0.00, 1.00);
         }
