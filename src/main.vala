@@ -16,13 +16,9 @@ public class GameDemo : Object {
         engine.add_texture ("resources/font.png");
         engine.add_texture ("resources/fluffy-grass.png");
         
-        // Add an Event to the Render Call
-        engine.add_event(Darkcore.Engine.Events.Render, () => {
-            // I am called after each render...
-            // This can be something like object management ....
-            //var state = (GameState) engine.gamestate;
-            //state.points += 1;
-            //print("%i\n", state.points);
+        // Add an event to the renderer
+        engine.add_event(Darkcore.EventTypes.Render, () => {
+            print("HELL YEAH!");
         });
         
         var text = new Darkcore.SpriteNS.Text.from_texture(engine, 0);

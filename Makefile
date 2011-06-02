@@ -12,17 +12,18 @@ LIBS = -X -lSDL_gfx -X -lSDL_image -X -lSDL_mixer
 FLAGS = --vapidir=vapi
 FLAGS = -g --save-temps --vapidir=vapi
 FILES = \
-    src/main.vala \
-    src/paddle.vala \
     src/ball.vala \
-    src/darkcore/vector.vala \
     src/darkcore/collision.vala \
     src/darkcore/engine.vala \
-    src/darkcore/sprite.vala \
-    src/darkcore/sprite/text.vala \
+    src/darkcore/event.vala \
     src/darkcore/keystate.vala \
+    src/darkcore/sprite/text.vala \
+    src/darkcore/sprite.vala \
     src/darkcore/texture.vala \
-    src/darkcore.vala
+    src/darkcore.vala \
+    src/darkcore/vector.vala \
+    src/main.vala \
+    src/paddle.vala
 
 all: $(FILES)
 	valac $(FLAGS) $(PKGS) $(LIBS) -o main $(FILES)
