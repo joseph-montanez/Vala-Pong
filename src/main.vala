@@ -6,6 +6,7 @@ public class GameState : Object {
     }
     
 }
+
 public class GameDemo : Object {
     public static int main (string[] args) {
         var engine = new Darkcore.Engine(640, 480);
@@ -19,9 +20,9 @@ public class GameDemo : Object {
         engine.add_event(Darkcore.Engine.Events.Render, () => {
             // I am called after each render...
             // This can be something like object management ....
-            var state = (GameState) engine.gamestate;
-            state.points += 1;
-            print("%i\n", state.points);
+            //var state = (GameState) engine.gamestate;
+            //state.points += 1;
+            //print("%i\n", state.points);
         });
         
         var text = new Darkcore.SpriteNS.Text.from_texture(engine, 0);
@@ -32,68 +33,13 @@ public class GameDemo : Object {
         };
         engine.sprites.add (text);
         
-        
-        var player = new Darkcore.Sprite ();
-        player.world = engine;
-        //player.color_r = 100;
-        player.x += 32;
-        player.y += 100;
-        player.height = 100;
-        player.on_key_press = ((engine, player) => {
-            var x = 0;
-            var y = 0;
-            if (engine.keys.w) {
-                y += 4;
-            }
-            if (engine.keys.s) {
-                y -= 4;
-            }
-            if (player.x + x + (player.width / 2) >= engine.width) {
-                x = 0;
-            }
-            else if (player.x + x - (player.width / 2) <= 0) {
-                x = 0;
-            }
-            if (player.y + y + (player.height / 2) >= engine.height) {
-                y = 0;
-            }
-            else if (player.y + y - (player.height / 2) <= 0) {
-                y = 0;
-            }
-            
-            player.y += y;
-        });
+        var player = new Paddle(ref engine);
+        player.up = "w";
+        player.down = "s";
         engine.sprites.add (player);
         
-        var player2 = new Darkcore.Sprite ();
-        player2.world = engine;
+        var player2 = new Paddle(ref engine);
         player2.x = engine.width - 32;
-        player2.y += 100;
-        player2.height = 100;
-        player2.on_key_press = ((engine, player) => {
-            var x = 0;
-            var y = 0;
-            if (engine.keys.up) {
-                y += 4;
-            }
-            if (engine.keys.down) {
-                y -= 4;
-            }
-            if (player2.x + x + (player2.width / 2) >= engine.width) {
-                x = 0;
-            }
-            else if (player2.x + x - (player2.width / 2) <= 0) {
-                x = 0;
-            }
-            if (player2.y + y + (player2.height / 2) >= engine.height) {
-                y = 0;
-            }
-            else if (player2.y + y - (player2.height / 2) <= 0) {
-                y = 0;
-            }
-            
-            player2.y += y;
-        });
         engine.sprites.add (player2);
 
         /*

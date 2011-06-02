@@ -13,6 +13,7 @@ FLAGS = --vapidir=vapi
 FLAGS = -g --save-temps --vapidir=vapi
 FILES = \
     src/main.vala \
+    src/paddle.vala \
     src/ball.vala \
     src/darkcore/vector.vala \
     src/darkcore/collision.vala \
