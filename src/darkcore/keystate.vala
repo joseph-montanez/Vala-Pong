@@ -1,8 +1,6 @@
 using SDL;
-using SDLGraphics;
 using GL;
 using GLU;
-using GLUT;
 
 namespace Darkcore { public class KeyState : Object {
     public bool up { get; set; default = false; }

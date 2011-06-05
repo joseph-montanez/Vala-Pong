@@ -1,8 +1,6 @@
 using SDL;
-using SDLGraphics;
 using GL;
 using GLU;
-using GLUT;
 
 namespace Darkcore { public class Texture : Object {
     public Surface *surface;

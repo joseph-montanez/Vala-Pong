@@ -1,8 +1,6 @@
 using SDL;
-using SDLGraphics;
 using GL;
 using GLU;
-using GLUT;
 
 namespace Darkcore { public class Sprite : Object {
     public delegate void DelegateType (Engine world, Sprite sprite);
