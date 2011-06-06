@@ -6,8 +6,11 @@ PKGS = \
     --pkg glu \
     --pkg gsl \
     --pkg sdl \
-    --pkg sdl-image
-LIBS = -X -lSDL_image
+    --pkg sdl-image \
+    --pkg sdl-mixer
+LIBS = \
+    -X -lSDL_image \
+    -X -lSDL_mixer
 FLAGS = -g --save-temps --vapidir=vapi
 FILES = \
     src/ball.vala \
@@ -18,6 +21,7 @@ FILES = \
     src/darkcore/log.vala \
     src/darkcore/sprite/text.vala \
     src/darkcore/sprite.vala \
+    src/darkcore/sound.vala \
     src/darkcore/texture.vala \
     src/darkcore.vala \
     src/darkcore/vector.vala \
@@ -35,6 +39,7 @@ ifeq ($(OS),WIN32)
        -X -lmingw32 \
        -X -lSDLmain \
        -X -lSDL_image \
+       -X -lSDL_mixer \
        -X -lSDL
 endif
 

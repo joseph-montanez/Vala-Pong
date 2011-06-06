@@ -31,6 +31,8 @@ public class GameDemo : Object {
         var engine = new Darkcore.Engine(640, 480);
         var state = new GameState();
         
+        var sound = new Darkcore.Sound ("resources/87035__RunnerPack__menuSel.ogg");
+        engine.sounds.add (sound);
         // Load textures
         engine.add_texture ("resources/font.png");
         engine.add_texture ("resources/fluffy-grass.png");
@@ -56,22 +58,6 @@ public class GameDemo : Object {
         var player2 = new Paddle(ref engine);
         player2.x = engine.width - 32;
         engine.sprites.add (player2);
-
-        /*
-        TODO: Music, Sound
-        int audio_frequency = 44100;
-        uint16 audio_format = 0x8010; // 16-bit stereo?
-        int audio_channels = 2;
-        int audio_buffers = 4096;
-        SDLMixer.open(audio_frequency, audio_format, audio_channels, audio_buffers);
-        var music = new SDLMixer.Music("resources/112175__LS__Rain_on_my_buds74bpm.ogg");
-        if (music != null) {
-            music.play(100);
-            //Mix_HookMusicFinished(musicDone);
-        
-            SDLMixer.close();
-        }
-        */
         
         var ball = new Ball(ref engine);
         ball.left_paddle = player;

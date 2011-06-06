@@ -83,6 +83,8 @@ public class Ball : Darkcore.Sprite {
                      * altered  
                      */
                     velocity_y = -((paddle.y - y) / half_height);
+                    
+                    engine.sounds[0].play ();
                 
                 }
             }
