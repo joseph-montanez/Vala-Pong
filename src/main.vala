@@ -1,3 +1,5 @@
+using GL;
+
 public class GameState : Object {
     public int player1_points { get; set; default = 0; }
     public int player2_points { get; set; default = 0; }
@@ -24,6 +26,39 @@ public class GameState : Object {
         }
     }
     
+}
+
+public class Circle : Darkcore.Sprite {
+    public double radius { get; set; default = 0.00; }
+    public override void render () {
+        const double DEG2RAD = 3.14159 / 180.00;
+
+        glPushMatrix ();
+        glTranslated (x, y, 0.00);
+        
+        if (scale_x != 1.00 || scale_y != 1.00) {
+            glScaled (scale_x, scale_y, 1.00);
+        }
+        
+        if (rotation != 0.00) {
+            glRotated (rotation, 0.00, 0.00, 1.00);
+        }
+        
+        glColor3ub ((GLubyte) color_r, (GLubyte) color_g, (GLubyte) color_b);
+        
+        glLineWidth ((GL.GLfloat) 3.00);
+        
+        glBegin(GL_LINE_LOOP);
+        for (int i=0; i < 360; i++) {
+            double degInRad = i * DEG2RAD;
+            glVertex2d(
+                Math.cos (degInRad) * radius, Math.sin (degInRad) * radius
+            );
+        }
+        glEnd ();
+        
+        glPopMatrix ();
+    } 
 }
 
 public class GameDemo : Object {
@@ -77,6 +112,12 @@ public class GameDemo : Object {
             }, 3000);
         };
         engine.gamestate = state;
+        
+        var c = new Circle();
+        c.x = engine.width / 2;
+        c.y = engine.height / 2;
+        c.radius = 34.00;
+        engine.sprites.add (c);
                 
         engine.run ();
 
