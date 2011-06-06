@@ -1,8 +1,27 @@
 public class GameState : Object {
-    public int points { get; set; default =0; }
+    public int player1_points { get; set; default = 0; }
+    public int player2_points { get; set; default = 0; }
+    public unowned Ball ball;
+    public unowned Paddle player1;
+    public unowned Paddle player2;
+    public Darkcore.EventCallback? on_score;
     
-    public GameState() {
+    public GameState () {
         base();
+    }
+    
+    public void player1_add_point () {
+        player1_points++;
+    }
+    
+    public void player2_add_point () {
+        player2_points++;
+    }
+    
+    public void fire_score () {
+        if (on_score != null) {
+            on_score ();
+        }
     }
     
 }
@@ -10,7 +29,7 @@ public class GameState : Object {
 public class GameDemo : Object {
     public static int main (string[] args) {
         var engine = new Darkcore.Engine(640, 480);
-        engine.gamestate = new GameState();
+        var state = new GameState();
         
         // Load textures
         engine.add_texture ("resources/font.png");
@@ -18,7 +37,7 @@ public class GameDemo : Object {
         
         // Add an event to the renderer
         engine.add_event(Darkcore.EventTypes.Render, () => {
-            print("HELL YEAH!");
+            //print("HELL YEAH!");
         });
         
         var text = new Darkcore.SpriteNS.Text.from_texture(engine, 0);
@@ -58,6 +77,20 @@ public class GameDemo : Object {
         ball.left_paddle = player;
         ball.right_paddle = player2;
         engine.sprites.add (ball);
+        
+        state.player1 = player;
+        state.player2 = player2;
+        state.ball = ball;
+        
+        state.on_score = () => {
+            // Reset the ball
+            ball.reset_location (engine);
+            ball.pause ();
+            engine.add_timer(() => {
+                ball.unpause ();
+            }, 3000);
+        };
+        engine.gamestate = state;
                 
         engine.run ();
 

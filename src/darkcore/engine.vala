@@ -4,6 +4,7 @@ using GLU;
 
 namespace Darkcore { public class Engine : Object {
     public delegate void DelegateType ();
+    public Gee.ArrayList<EventManager> timed_events; 
     public Gee.ArrayList<EventManager> render_events; 
     public Gee.ArrayList<Texture*> textures; 
     public Gee.ArrayList<Sprite> sprites; 
@@ -21,6 +22,7 @@ namespace Darkcore { public class Engine : Object {
         SDL.init (InitFlag.VIDEO |  InitFlag.AUDIO);
         this.textures = new Gee.ArrayList<Texture>();
         this.sprites = new Gee.ArrayList<Sprite>();
+        this.timed_events = new Gee.ArrayList<Darkcore.EventManager>(); 
         this.render_events = new Gee.ArrayList<Darkcore.EventManager>(); 
         this.keys = new KeyState();
         this.width = width;
@@ -37,6 +39,13 @@ namespace Darkcore { public class Engine : Object {
             return 1;
         }
         return -1;
+    }
+    
+    public int add_timer (EventCallback evt, int timeout) {
+        var mgr = new Darkcore.EventManager ();
+        mgr.add_callback_timer (evt, timeout);
+        timed_events.add (mgr);
+        return 1;
     }
     
     public void process_events () {
@@ -219,7 +228,17 @@ namespace Darkcore { public class Engine : Object {
                 frames_per_second = fps;
                 fps = 0;
             }
-        }    
+
+            foreach (var mgr in timed_events) {
+                var current = SDL.Timer.get_ticks();
+                
+                if (current - mgr.get_active_time () > mgr.get_timeout ()) {
+                    mgr.call_callback ();
+                    // Remove the event from the stack
+                    timed_events.remove (mgr);
+                }
+            }  
+        }  
     }
     
     public Texture? getTexture(int index) {

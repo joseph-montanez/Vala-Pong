@@ -1,0 +1,4 @@
+
+** (main.exe:5304): CRITICAL **: ball_set_left_paddle: assertion `self != NULL' failed
+
+** (main.exe:5304): CRITICAL **: ball_set_right_paddle: assertion `self != NULL' failed

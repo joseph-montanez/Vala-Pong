@@ -1,6 +1,7 @@
 public class Ball : Darkcore.Sprite {
     public double velocity_x;
     public double velocity_y;
+    private bool _paused { get; set; default = false; }
     public double acceleration {
         get; set; default = 0.100;
     }
@@ -17,14 +18,14 @@ public class Ball : Darkcore.Sprite {
         this.height = 64.00;
         
         /* Place the ball in the middle of the screen */
-        this.x = engine.width / 2;
-        this.y = engine.height / 2;
+        this.reset_location (engine);
         
         /* Set the inital ball velocity */
         this.velocity_x = 4.00;
         this.velocity_y = 4.00;
         
         this.on_render = (engine, ball) => {
+            var gamestate = (GameState) engine.gamestate;
             var half_height = height / 2.00;
             var half_width = width / 2.00;
             
@@ -40,11 +41,15 @@ public class Ball : Darkcore.Sprite {
             if (x + half_width + velocity_x >= engine.width) {
                 velocity_x = -Math.fabs(velocity_x);
                 /* The right player loses if this happens */
+                gamestate.player1_add_point ();
+                gamestate.fire_score ();
             }
             /* If the ball goes beyound left of the window */
             if (x - half_width - velocity_x <= 0) {
                 velocity_x = Math.fabs(velocity_x);
                 /* The left player loses if this happens */
+                gamestate.player2_add_point ();
+                gamestate.fire_score ();
             }
             
             /* Test for each paddle for collision */
@@ -82,15 +87,41 @@ public class Ball : Darkcore.Sprite {
                 }
             }
             
-            /* Add any resulting velocity changes to the ball's position */
-            x += velocity_x;
-            y += velocity_y;
-            
-            /* Add a constant rotation */
-            rotation += 1.0;
+            if (!_paused) {
+                /* Add any resulting velocity changes to the ball's position */
+                x += velocity_x;
+                y += velocity_y;
+                
+                /* Add a constant rotation */
+                rotation += 1.0;
+            }
             
             
         };
+    }
+    
+    public void reset_location(Darkcore.Engine engine) {
+        /* Place the ball in the middle of the screen */
+        this.x = engine.width / 2;
+        this.y = engine.height / 2;
+    }
+    
+    public void pause () {
+        _paused = true;
+    }
+    
+    public void unpause() {
+        _paused = false;
+    }
+    
+    public bool is_paused () {
+        return _paused;
+    }
+    
+    public void timed_pause (Darkcore.Engine engine, int ticks) {
+        engine.add_timer(() => {
+            unpause ();
+        }, 3000);
     }
     
     public bool has_hit_paddle (Darkcore.Sprite sprite) {
