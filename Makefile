@@ -1,5 +1,6 @@
 OS = LINUX
 PKGS = \
+    --pkg gio-2.0 \
     --pkg gee-1.0 \
     --pkg gl \
     --pkg glu \
@@ -14,6 +15,7 @@ FILES = \
     src/darkcore/engine.vala \
     src/darkcore/event.vala \
     src/darkcore/keystate.vala \
+    src/darkcore/log.vala \
     src/darkcore/sprite/text.vala \
     src/darkcore/sprite.vala \
     src/darkcore/texture.vala \
