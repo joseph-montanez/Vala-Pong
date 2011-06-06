@@ -30,13 +30,13 @@ namespace Darkcore { public class Texture : Object {
         	// Check that the image's width is a power of 2
         	this.width = this.surface->w;
 	        if ( (this.surface->w & (this.surface->w - 1)) != 0 ) {
-		        print("warning: image.bmp's width is not a power of 2\n");
+	            Log.write("warning: " + filename + "'s width is not a power of 2\n");
 	        }
          
 	        // Also check if the height is a power of 2
         	this.height = this.surface->h;
 	        if ( (this.surface->h & (this.surface->h - 1)) != 0 ) {
-		        print("warning: image.bmp's height is not a power of 2\n");
+	            Log.write("warning: " + filename + "'s height is not a power of 2\n");
 	        }
      
             // get the number of channels in the SDL surface
@@ -45,16 +45,16 @@ namespace Darkcore { public class Texture : Object {
                 if (this.surface->format.Rmask == 0x000000ff) {
                     this.texture_format = GL_RGBA;
                 } else {
-                    this.texture_format = GL_BGRA;
+                    //this.texture_format = GL_BGRA;
                 }
             } else if (this.nOfColors == 3) {    // no alpha channel
                 if (this.surface->format.Rmask == 0x000000ff) {
                     this.texture_format = GL_RGB;
                 } else {
-                    this.texture_format = GL_BGR;
+                    //this.texture_format = GL_BGR;
                 }
             } else {
-                print("warning: the image is not truecolor..  this will probably break\n");
+	            Log.write("warning: the image is not truecolor..  this will probably break\n");
                 // this error should not go unhandled
             }
             glEnable(GL_TEXTURE_2D);
