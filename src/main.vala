@@ -102,22 +102,28 @@ public class GameDemo : Object {
         state.player1 = player;
         state.player2 = player2;
         state.ball = ball;
+    
+        // This must be defined outside the score event
+        // If defined inside the anon on score function
+        // you'd get a segment fault :(
+        Circle c = new Circle();
+        c.x = engine.width / 2;
+        c.y = engine.height / 2;
+        c.radius = 34.00;
         
         state.on_score = () => {
             // Reset the ball
             ball.reset_location (engine);
             ball.pause ();
+            
+            engine.sprites.add (c);
+            
             engine.add_timer(() => {
                 ball.unpause ();
+                engine.sprites.remove (c);
             }, 3000);
         };
         engine.gamestate = state;
-        
-        var c = new Circle();
-        c.x = engine.width / 2;
-        c.y = engine.height / 2;
-        c.radius = 34.00;
-        engine.sprites.add (c);
                 
         engine.run ();
 
